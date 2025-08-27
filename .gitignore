@@ -1,0 +1,36 @@
+# === Unity ===
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+# Cache y bases locales
+*.pidb
+*.booproj
+*.suo
+*.user
+*.userprefs
+*.tmp
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# IDEs
+.vs/
+.idea/
+*.csproj
+*.unityproj
+*.sln
+
+# SO
+.DS_Store
+Thumbs.db
+
+# Addressables (salva settings JSON)
+[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*
+!/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*.json
