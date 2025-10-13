@@ -1,17 +1,17 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MenuSystem : MonoBehaviour
 {
-    public void Jugar()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
+    public void Jugar() => SceneManager.LoadScene("LevelSelector");
+    public void Historia() => SceneManager.LoadScene("Story");
 
     public void Salir()
     {
-        Debug.Log("Saliendo del juego.");
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
         Application.Quit();
+        #endif
     }
 }
