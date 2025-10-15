@@ -145,8 +145,8 @@ Transform:
   m_GameObject: {fileID: 376243981}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.82, y: 0.21, z: 0}
-  m_LocalScale: {x: 10.113, y: 10.113, z: 10.113}
+  m_LocalPosition: {x: -2.5004, y: -0.4704, z: 0}
+  m_LocalScale: {x: 7.987247, y: 7.987247, z: 7.987247}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -507,8 +507,8 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
-  - component: {fileID: 519420035}
   - component: {fileID: 519420034}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -634,7 +634,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &519420034
+--- !u!82 &519420033
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -649,7 +649,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -731,7 +731,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &519420035
+--- !u!114 &519420034
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -742,8 +742,10 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6030ef34204e4384097f9cebac696c59, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  Kobold: {fileID: 455883476}
+  m_EditorClassIdentifier: Assembly-CSharp::CamaraScript
+  objetivo: {fileID: 455883478}
+  velocidadCamara: 0.025
+  desplazamiento: {x: 0, y: 2, z: -10}
 --- !u!1 &605851043
 GameObject:
   m_ObjectHideFlags: 0
