@@ -3,15 +3,17 @@ using UnityEngine;
 public class CamaraScript : MonoBehaviour
 {
     public Transform objetivo;
-    public float velocidadCamara = 0.025f;
-    public Vector3 desplazamiento;
+    //public float velocidadCamara = 0.025f;
+    //public Vector3 desplazamiento;
 
     private void LateUpdate()
     {
-        Vector3 posicionDeseada = objetivo.position + desplazamiento;
+        //Vector3 posicionDeseada = objetivo.position + desplazamiento;
 
-        Vector3 posicionSuavizada = Vector3.Lerp(transform.position, posicionDeseada, velocidadCamara);
+        //Vector3 posicionSuavizada = Vector3.Lerp(transform.position, posicionDeseada, velocidadCamara);
 
-        transform.position = posicionSuavizada;
+        //transform.position = posicionSuavizada;
+
+        transform.position = new Vector3(objetivo.position.x, objetivo.position.y, transform.position.z);
     }
 }

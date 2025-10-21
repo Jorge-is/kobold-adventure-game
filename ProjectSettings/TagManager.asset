@@ -5,11 +5,15 @@ TagManager:
   serializedVersion: 3
   tags:
   - Enemigo
+  - Floor
+  - Coin
+  - Defeat
+  - Barrel
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Suelo
+  - Floor
   - Water
   - UI
   - 

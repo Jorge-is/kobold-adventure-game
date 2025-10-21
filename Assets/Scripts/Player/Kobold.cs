@@ -1,18 +1,28 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Kobold : MonoBehaviour
 {
     public GameObject BalaPrefab;
     [SerializeField] private Transform PuntoDisparo;
-    //[SerializeField] private float rango;
-    //[SerializeField] private GameObject EfectoImpacto;
-    public float Velocidad;
-    public float FuerzaSalto;
+
+    private float mover;
+
+    public float Velocidad = 5;
+    public float FuerzaSalto = 4;
 
     private Rigidbody2D Rigidbody2D;
     private Animator Animator;
-    private float EntradaHorizontal;
+
     private bool ConectadoTierra;
+    public Transform ControlSuelo;
+    public float RadioSuelo = 0.1f;
+    public LayerMask CapaSuelo;
+
+    private int coins;
+    public TMP_Text textCoins;
+
     private float UltimoDisparo;
     private int vida = 5;
 
@@ -24,24 +34,25 @@ public class Kobold : MonoBehaviour
 
     void Update()
     {
-        EntradaHorizontal = Input.GetAxisRaw("Horizontal");
+        mover = Input.GetAxisRaw("Horizontal");
+        Rigidbody2D.linearVelocity = new Vector2(mover * Velocidad, Rigidbody2D.linearVelocity.y);
 
-        if (EntradaHorizontal < 0.0f) transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
-        else if (EntradaHorizontal > 0.0f) transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        // Jugador mira en la dirección del movimiento
+        if (mover != 0) transform.localScale = new Vector3(Mathf.Sign(mover), 1, 1);
 
-        Animator.SetBool("running", EntradaHorizontal != 0.0f /*&& ConectadoTierra*/);
+        // Animaciones
+        // Animator.SetBool("running", mover != 0.0f);
+        Animator.SetFloat("speed", Mathf.Abs(mover));
+        //Animator.SetFloat("VerticalSpeed", Rigidbody2D.linearVelocity.y);
+        //Animator.SetBool("grounded", ConectadoTierra);
 
-        if (Physics2D.Raycast(transform.position, Vector3.down, 1f))
-        {
-            ConectadoTierra = true;
-        }
-        else ConectadoTierra = false;
-        
-        if (Input.GetKeyDown(KeyCode.W) && ConectadoTierra)
+        // Saltar
+        if (Input.GetKeyDown(KeyCode.W /* "Jump" */) && ConectadoTierra)
         {
             Saltar();
         }
-        
+
+        // Disparar
         if (Input.GetKey(KeyCode.Space) && Time.time > UltimoDisparo + 0.25f)
         {
             Disparar();
@@ -51,9 +62,48 @@ public class Kobold : MonoBehaviour
     
     private void Saltar()
     {
-        Rigidbody2D.AddForce(Vector2.up * FuerzaSalto);
+        Rigidbody2D.linearVelocity = new Vector2(Rigidbody2D.linearVelocity.x, FuerzaSalto);
+        //Rigidbody2D.AddForce(Vector2.up * FuerzaSalto);
     }
-    
+
+    private void FixedUpdate()
+    {
+        ConectadoTierra = Physics2D.OverlapCircle(ControlSuelo.position, RadioSuelo, CapaSuelo);
+        //Animator.SetBool("jumping", !ConectadoTierra); // Aún no tengo animación de salto
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("Coin"))
+        {
+            Destroy(collision.gameObject);
+            coins ++;
+            textCoins.text = coins.ToString();
+        }
+
+        if (collision.transform.CompareTag("Defeat"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        if (collision.transform.CompareTag("Barrel"))
+        {
+            Vector2 golpearBarril = (Rigidbody2D.position - (Vector2)collision.transform.position).normalized;
+            Rigidbody2D.linearVelocity = Vector2.zero;
+            Rigidbody2D.AddForce(golpearBarril * 3, ForceMode2D.Impulse);
+
+            BoxCollider2D[] colliders = collision.gameObject.GetComponents<BoxCollider2D>();
+
+            foreach (BoxCollider2D collider in colliders)
+            {
+                collider.enabled = false;
+            }
+
+            collision.GetComponent<Animator>().enabled=true;
+            Destroy(collision.gameObject, 0.5f);
+        }
+    }
+
     private void Disparar()
     {
         Vector3 direccion;
@@ -95,8 +145,5 @@ public class Kobold : MonoBehaviour
         if (vida == 0) Destroy(gameObject);
     }
 
-    private void FixedUpdate()
-    {
-        Rigidbody2D.linearVelocity = new Vector2(EntradaHorizontal * Velocidad, Rigidbody2D.linearVelocity.y);
-    }
+
 }
