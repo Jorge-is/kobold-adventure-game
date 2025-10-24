@@ -22,25 +22,17 @@ public class BalaScript : MonoBehaviour
     public void SetDireccion(Vector2 direccion)
     {
         Direccion = direccion;
+
+        // Ajustar orientación del sprite de la bala
+        if (direccion.x != 0)
+        {
+            // Voltea el sprite según la dirección en el eje x
+            transform.localScale = new Vector3(Mathf.Sign(direccion.x), 1, 1);
+        }
     }
 
     public void DestruirBala()
     {
         Destroy(gameObject);
     }
-    /*
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Kobold kobold = collision.GetComponent<Kobold>();
-        //GruntScript grunt = collision.GetComponent<GruntScript>();
-        if (kobold != null)
-        {
-            kobold.Golpear();
-        }
-        if (grunt != null)
-        {
-            grunt.Golpear();
-        }
-        DestruirBala();
-    }*/
 }

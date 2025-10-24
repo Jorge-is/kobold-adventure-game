@@ -9,6 +9,7 @@ TagManager:
   - Coin
   - Defeat
   - Barrel
+  - Bala
   layers:
   - Default
   - TransparentFX

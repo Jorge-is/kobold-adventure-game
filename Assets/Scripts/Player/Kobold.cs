@@ -6,6 +6,8 @@ public class Kobold : MonoBehaviour
 {
     public GameObject BalaPrefab;
     [SerializeField] private Transform PuntoDisparo;
+    [SerializeField] private int vida = 5;
+    //[SerializeField] private GameObject EfectoDanio;
 
     private float mover;
 
@@ -24,7 +26,6 @@ public class Kobold : MonoBehaviour
     public TMP_Text textCoins;
 
     private float UltimoDisparo;
-    private int vida = 5;
 
     void Start()
     {
@@ -106,11 +107,10 @@ public class Kobold : MonoBehaviour
 
     private void Disparar()
     {
-        Vector3 direccion;
-        if (transform.localScale.x == 1.0f) direccion = Vector3.right;
-        else direccion = Vector3.left;
+        // Determinar dirección según orientación del jugador
+        Vector2 direccion = transform.localScale.x == 1.0f ? Vector2.right : Vector2.left;
 
-        //GameObject bala = Instantiate(BalaPrefab, transform.position + direccion * 0.1f, Quaternion.identity);
+        // Instanciar la bala en el punto de disparo 
         GameObject bala = Instantiate(BalaPrefab, PuntoDisparo.position, Quaternion.identity);
 
         //Ignorar la colisión entre el jugador y la bala
@@ -121,29 +121,25 @@ public class Kobold : MonoBehaviour
             Physics2D.IgnoreCollision(KoboldCollider, BalaCollider);
         }
 
+        // Configurar la dirección de la bala
         bala.GetComponent<BalaScript>().SetDireccion(direccion);
     }
-
-    /*
-    private void Disparar()
-    {
-        RaycastHit2D raycastHit2D = Physics2D.Raycast(PuntoDisparo.position, PuntoDisparo.right, rango);
-
-        if (raycastHit2D)
-        {
-            if (raycastHit2D.transform.CompareTag("Enemigo"))
-            {
-                raycastHit2D.transform.GetComponent<Enemigo>().TomarDano(20);
-                Instantiate(EfectoImpacto, raycastHit2D.point, Quaternion.identity);
-            }
-        }
-    }*/
 
     public void Golpear()
     {
         vida--;
-        if (vida == 0) Destroy(gameObject);
+
+        /*if (EfectoDanio != null)
+        {
+            Instantiate(EfectoDanio, transform.position, Quaternion.identity);
+        }*/
+
+        if (vida <= 0)
+        {
+            // Reinicia la escena si muere
+            UnityEngine.SceneManagement.SceneManager.LoadScene(
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
+            );
+        }
     }
-
-
 }

@@ -2,10 +2,32 @@ using UnityEngine;
 
 public class DemonScript : MonoBehaviour
 {
-    [SerializeField] private float Vida;
-    [SerializeField] private GameObject EfectoMuerte;
+    [SerializeField] private int Vida = 3;
+    private Animator animator;
+    private bool estaMuerto = false;
 
-    public void TomarDano(float dano)
+    void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Si lo golpea una bala del jugador
+        if (collision.CompareTag("Bala") && !estaMuerto)
+        {
+            TomarDano(1);
+            Destroy(collision.gameObject); // destruir bala al impactar
+        }
+
+        // Si toca al jugador
+        if (collision.CompareTag("Player") && !estaMuerto)
+        {
+            collision.GetComponent<Kobold>().Golpear();
+        }
+    }
+
+    public void TomarDano(int dano)
     {
         Vida -= dano;
         if (Vida <= 0)
@@ -16,45 +38,17 @@ public class DemonScript : MonoBehaviour
 
     private void Muerte()
     {
-        Instantiate(EfectoMuerte, transform.position, Quaternion.identity);
-        Destroy(gameObject);
-    }
-    /*public GameObject Kobold;
-    public GameObject BalaPrefab;
+        estaMuerto = true;
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null) rb.simulated = false; // desactiva físicas
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = false; // evita nuevas colisiones
 
-    private float UltimoDisparo;
-    private int vida = 3;
-
-    private void Update()
-    {
-        if (Kobold == null) return;
-
-        Vector3 direccion = Kobold.transform.position - transform.position;
-        if (direccion.x >= 0.0f) transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        else transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
-
-        float distancia = Mathf.Abs(Kobold.transform.position.x - transform.position.x);
-
-        if (distancia < 1.0f && Time.time > UltimoDisparo + 0.25f)
+        if (animator != null)
         {
-            Disparar();
-            UltimoDisparo = Time.time;
+            animator.SetTrigger("death");
         }
+
+        Destroy(gameObject, 1.2f); // espera a que acabe la animación
     }
-
-    private void Disparar()
-    {
-        Vector3 direccion;
-        if (transform.localScale.x == 1.0f) direccion = Vector3.right;
-        else direccion = Vector3.left;
-
-        GameObject bala = Instantiate(BalaPrefab, transform.position + direccion * 0.1f, Quaternion.identity);
-        bala.GetComponent<BalaScript>().SetDireccion(direccion);
-    }
-
-    public void Golpear()
-    {
-        vida = vida - 1;
-        if (vida == 0) Destroy(gameObject);
-    }*/
 }
