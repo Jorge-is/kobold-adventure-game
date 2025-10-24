@@ -25,6 +25,10 @@ public class Kobold : MonoBehaviour
     private int coins;
     public TMP_Text textCoins;
 
+    public AudioSource audioSource;
+    public AudioClip coinClip;
+    public AudioClip barrelClip;
+
     private float UltimoDisparo;
 
     void Start()
@@ -77,6 +81,7 @@ public class Kobold : MonoBehaviour
     {
         if (collision.transform.CompareTag("Coin"))
         {
+            audioSource.PlayOneShot(coinClip);
             Destroy(collision.gameObject);
             coins ++;
             textCoins.text = coins.ToString();
@@ -89,6 +94,7 @@ public class Kobold : MonoBehaviour
 
         if (collision.transform.CompareTag("Barrel"))
         {
+            audioSource.PlayOneShot(barrelClip);
             Vector2 golpearBarril = (Rigidbody2D.position - (Vector2)collision.transform.position).normalized;
             Rigidbody2D.linearVelocity = Vector2.zero;
             Rigidbody2D.AddForce(golpearBarril * 3, ForceMode2D.Impulse);
