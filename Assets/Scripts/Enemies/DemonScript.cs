@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DemonScript : MonoBehaviour
 {
-    [SerializeField] private int Vida = 4;
+    [SerializeField] private int Vida = 3;
     private Animator animator;
     private bool estaMuerto = false;
     private Rigidbody2D rb;
@@ -28,7 +28,7 @@ public class DemonScript : MonoBehaviour
 
         // Si toca al jugador
         if (collision.CompareTag("Player"))
-        {
+                {
             var kobold = collision.GetComponent<Kobold>();
             if (kobold != null) kobold.Golpear();
         }

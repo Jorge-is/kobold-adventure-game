@@ -42,7 +42,7 @@ public class Kobold : MonoBehaviour
         mover = Input.GetAxisRaw("Horizontal");
         Rigidbody2D.linearVelocity = new Vector2(mover * Velocidad, Rigidbody2D.linearVelocity.y);
 
-        // Jugador mira en la direcci髇 del movimiento
+        // Jugador mira en la direcci锟絥 del movimiento
         if (mover != 0) transform.localScale = new Vector3(Mathf.Sign(mover), 1, 1);
 
         // Animaciones
@@ -74,7 +74,7 @@ public class Kobold : MonoBehaviour
     private void FixedUpdate()
     {
         ConectadoTierra = Physics2D.OverlapCircle(ControlSuelo.position, RadioSuelo, CapaSuelo);
-        //Animator.SetBool("jumping", !ConectadoTierra); // A鷑 no tengo animaci髇 de salto
+        //Animator.SetBool("jumping", !ConectadoTierra); // A锟絥 no tengo animaci锟絥 de salto
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -87,6 +87,7 @@ public class Kobold : MonoBehaviour
             textCoins.text = coins.ToString();
         }
 
+        // Reiniciar nivel al caer en zona de derrota
         if (collision.transform.CompareTag("Defeat"))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -113,13 +114,13 @@ public class Kobold : MonoBehaviour
 
     private void Disparar()
     {
-        // Determinar direcci髇 seg鷑 orientaci髇 del jugador
+        // Determinar direcci贸n seg煤n orientaci贸n del jugador
         Vector2 direccion = transform.localScale.x == 1.0f ? Vector2.right : Vector2.left;
 
         // Instanciar la bala en el punto de disparo 
         GameObject bala = Instantiate(BalaPrefab, PuntoDisparo.position, Quaternion.identity);
 
-        //Ignorar la colisi髇 entre el jugador y la bala
+        //Ignorar la colisi贸n entre el jugador y la bala
         Collider2D KoboldCollider = GetComponent<Collider2D>();
         Collider2D BalaCollider = bala.GetComponent<Collider2D>();
         if (KoboldCollider != null && BalaCollider != null)
@@ -127,7 +128,7 @@ public class Kobold : MonoBehaviour
             Physics2D.IgnoreCollision(KoboldCollider, BalaCollider);
         }
 
-        // Configurar la direcci髇 de la bala
+        // Configurar la direcci贸n de la bala
         bala.GetComponent<BalaScript>().SetDireccion(direccion);
     }
 
@@ -143,9 +144,7 @@ public class Kobold : MonoBehaviour
         if (vida <= 0)
         {
             // Reinicia la escena si muere
-            UnityEngine.SceneManagement.SceneManager.LoadScene(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
-            );
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

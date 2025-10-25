@@ -4,12 +4,12 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Enemigo
   - Floor
   - Coin
   - Defeat
   - Barrel
   - Bala
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -17,8 +17,8 @@ TagManager:
   - Floor
   - Water
   - UI
-  - 
-  - 
+  - Enemy
+  - Player
   - 
   - 
   - 

@@ -84,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -125,19 +125,19 @@ TextureImporter:
       name: collectibles_coin_gold_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 5
-        width: 22
-        height: 22
+        x: 0
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 7ab8a504057726e30800000000000000
+      spriteID: a4be97ad003858041a2ba8bcb16a9248
       internalID: 4495286564629941159
       vertices: []
       indices: 
@@ -147,19 +147,19 @@ TextureImporter:
       name: collectibles_coin_gold_1
       rect:
         serializedVersion: 2
-        x: 39
-        y: 5
-        width: 18
-        height: 22
+        x: 32
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 584a0cc4d71f54030800000000000000
+      spriteID: 9a08ac237121b8a429b5c7cb96f6aef1
       internalID: 3478451807674475653
       vertices: []
       indices: 
@@ -169,19 +169,19 @@ TextureImporter:
       name: collectibles_coin_gold_2
       rect:
         serializedVersion: 2
-        x: 77
-        y: 5
-        width: 6
-        height: 22
+        x: 64
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d025873c299800590800000000000000
+      spriteID: 746ff22e3025507479169b3a519cac29
       internalID: -7710011298620616179
       vertices: []
       indices: 
@@ -191,19 +191,19 @@ TextureImporter:
       name: collectibles_coin_gold_3
       rect:
         serializedVersion: 2
-        x: 103
-        y: 5
-        width: 18
-        height: 22
+        x: 96
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: fb57059916bd5e670800000000000000
+      spriteID: c3ef2db4c5e9ca04b944333d24804ff4
       internalID: 8567495078372734399
       vertices: []
       indices: 
@@ -213,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 65f88551bb9e8a24ebfb127b0d6e4b4b
     internalID: 0
     vertices: []
     indices: 
@@ -221,7 +221,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       collectibles_coin_gold_0: 4495286564629941159
       collectibles_coin_gold_1: 3478451807674475653
