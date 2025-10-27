@@ -1,85 +1,103 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Kobold : MonoBehaviour
 {
+    [Header("Ataque")]
     public GameObject BalaPrefab;
     [SerializeField] private Transform PuntoDisparo;
-    [SerializeField] private int vida = 5;
+    private float UltimoDisparo;
+
     //[SerializeField] private GameObject EfectoDanio;
 
-    private float mover;
+    [Header("Atributos")]
+    [SerializeField] private int vida = 5;
+    public float Velocidad = 5f;
+    public float FuerzaSalto = 4f;
+    public float FuerzaGolpe = 6f;
 
-    public float Velocidad = 5;
-    public float FuerzaSalto = 4;
-
-    private Rigidbody2D Rigidbody2D;
-    private Animator Animator;
-
-    private bool ConectadoTierra;
+    [Header("Detección de suelo")]
     public Transform ControlSuelo;
     public float RadioSuelo = 0.1f;
     public LayerMask CapaSuelo;
 
+    [Header("Vida UI")]
+    public Image[] corazones;
+    public Sprite corazonLleno;
+    public Sprite corazonVacio;
+
+    [Header("Interfaz y Sonidos")]
     private int coins;
     public TMP_Text textCoins;
-
     public AudioSource audioSource;
     public AudioClip coinClip;
     public AudioClip barrelClip;
 
-    private float UltimoDisparo;
+    // Componentes
+    private Rigidbody2D rb;
+    private Animator animator;
+
+    // Estados
+    private bool conectadoTierra;
+    private bool recibeDanio;
 
     void Start()
     {
-        Rigidbody2D = GetComponent<Rigidbody2D>();
-        Animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        textCoins.text = coins.ToString();
+
+        // Inicializar corazones de vida al comienzo
+        ActualizarCorazones();
     }
 
     void Update()
     {
-        mover = Input.GetAxisRaw("Horizontal");
-        Rigidbody2D.linearVelocity = new Vector2(mover * Velocidad, Rigidbody2D.linearVelocity.y);
+        // Bloquear movimiento mientras recibe daño
+        if (recibeDanio) return;
 
-        // Jugador mira en la direcci�n del movimiento
+        float mover = Input.GetAxisRaw("Horizontal");
+        rb.linearVelocity = new Vector2(mover * Velocidad, rb.linearVelocity.y);
+
+        // Orientación del jugador, mira en la dirección del movimiento
         if (mover != 0) transform.localScale = new Vector3(Mathf.Sign(mover), 1, 1);
 
         // Animaciones
-        // Animator.SetBool("running", mover != 0.0f);
-        Animator.SetFloat("speed", Mathf.Abs(mover));
-        //Animator.SetFloat("VerticalSpeed", Rigidbody2D.linearVelocity.y);
+        animator.SetFloat("speed", Mathf.Abs(mover));
         //Animator.SetBool("grounded", ConectadoTierra);
+        animator.SetBool("recibeDanio", recibeDanio);
 
-        // Saltar
-        if (Input.GetKeyDown(KeyCode.W /* "Jump" */) && ConectadoTierra)
+        // Salto
+        if (Input.GetKeyDown(KeyCode.W /* "Jump" */) && conectadoTierra)
         {
             Saltar();
         }
 
-        // Disparar
+        // Disparo
         if (Input.GetKey(KeyCode.Space) && Time.time > UltimoDisparo + 0.25f)
         {
             Disparar();
             UltimoDisparo = Time.time;
         }
     }
-    
-    private void Saltar()
-    {
-        Rigidbody2D.linearVelocity = new Vector2(Rigidbody2D.linearVelocity.x, FuerzaSalto);
-        //Rigidbody2D.AddForce(Vector2.up * FuerzaSalto);
-    }
 
     private void FixedUpdate()
     {
-        ConectadoTierra = Physics2D.OverlapCircle(ControlSuelo.position, RadioSuelo, CapaSuelo);
-        //Animator.SetBool("jumping", !ConectadoTierra); // A�n no tengo animaci�n de salto
+        conectadoTierra = Physics2D.OverlapCircle(ControlSuelo.position, RadioSuelo, CapaSuelo);
+        //Animator.SetBool("jumping", !ConectadoTierra); // Aún no tengo animación de salto
+    }
+
+    private void Saltar()
+    {
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, FuerzaSalto);
+        //Rigidbody2D.AddForce(Vector2.up * FuerzaSalto);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.CompareTag("Coin"))
+        if (collision.CompareTag("Coin"))
         {
             audioSource.PlayOneShot(coinClip);
             Destroy(collision.gameObject);
@@ -88,26 +106,24 @@ public class Kobold : MonoBehaviour
         }
 
         // Reiniciar nivel al caer en zona de derrota
-        if (collision.transform.CompareTag("Defeat"))
+        if (collision.CompareTag("Defeat"))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
-        if (collision.transform.CompareTag("Barrel"))
+        if (collision.CompareTag("Barrel"))
         {
             audioSource.PlayOneShot(barrelClip);
-            Vector2 golpearBarril = (Rigidbody2D.position - (Vector2)collision.transform.position).normalized;
-            Rigidbody2D.linearVelocity = Vector2.zero;
-            Rigidbody2D.AddForce(golpearBarril * 3, ForceMode2D.Impulse);
+            Vector2 golpearBarril = (rb.position - (Vector2)collision.transform.position).normalized;
+            rb.linearVelocity = Vector2.zero;
+            rb.AddForce(golpearBarril * 3, ForceMode2D.Impulse);
 
-            BoxCollider2D[] colliders = collision.gameObject.GetComponents<BoxCollider2D>();
+            foreach (BoxCollider2D col in collision.GetComponents<BoxCollider2D>())
+                col.enabled = false;
 
-            foreach (BoxCollider2D collider in colliders)
-            {
-                collider.enabled = false;
-            }
+            Animator anim = collision.GetComponent<Animator>();
+            if (anim != null) anim.enabled = true;
 
-            collision.GetComponent<Animator>().enabled=true;
             Destroy(collision.gameObject, 0.5f);
         }
     }
@@ -121,30 +137,60 @@ public class Kobold : MonoBehaviour
         GameObject bala = Instantiate(BalaPrefab, PuntoDisparo.position, Quaternion.identity);
 
         //Ignorar la colisión entre el jugador y la bala
-        Collider2D KoboldCollider = GetComponent<Collider2D>();
-        Collider2D BalaCollider = bala.GetComponent<Collider2D>();
-        if (KoboldCollider != null && BalaCollider != null)
+        Collider2D koboldCollider = GetComponent<Collider2D>();
+        Collider2D balaCollider = bala.GetComponent<Collider2D>();
+
+        if (koboldCollider != null && balaCollider != null)
         {
-            Physics2D.IgnoreCollision(KoboldCollider, BalaCollider);
+            Physics2D.IgnoreCollision(koboldCollider, balaCollider);
         }
+
 
         // Configurar la dirección de la bala
         bala.GetComponent<BalaScript>().SetDireccion(direccion);
     }
 
-    public void Golpear()
+    public void RecibeDanio(Vector2 origen, int cantDanio)
     {
-        vida--;
+        if (recibeDanio) return;
 
-        /*if (EfectoDanio != null)
-        {
-            Instantiate(EfectoDanio, transform.position, Quaternion.identity);
-        }*/
+        recibeDanio = true;
+        vida -= cantDanio;
+        if (vida < 0) vida = 0;
+
+        ActualizarCorazones(); // Actualizar interfaz de vida
+
+        animator.SetBool("recibeDanio", true);
+
+        // Rebote visual al recibir daño
+        Vector2 rebote = ((Vector2)transform.position - origen).normalized + Vector2.up * 0.5f;
+        rb.linearVelocity = Vector2.zero;
+        rb.AddForce(rebote * FuerzaGolpe, ForceMode2D.Impulse);
 
         if (vida <= 0)
         {
-            // Reinicia la escena si muere
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        else
+        {
+            Invoke(nameof(DesactivaDanio), 0.5f); // tiempo de recuperación
+        }
+    }
+
+    public void DesactivaDanio()
+    {
+        recibeDanio = false;
+        rb.linearVelocity = Vector2.zero;
+    }
+
+    private void ActualizarCorazones()
+    {
+        for (int i = 0; i < corazones.Length; i++)
+        {
+            if (i < vida)
+                corazones[i].sprite = corazonLleno;
+            else
+                corazones[i].sprite = corazonVacio;
         }
     }
 }

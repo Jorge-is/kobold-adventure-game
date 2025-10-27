@@ -15,22 +15,26 @@ public class DemonScript : MonoBehaviour
         col = GetComponent<Collider2D>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (estaMuerto) return;
 
         // Si lo golpea una bala del jugador
-        if (collision.CompareTag("Bala"))
+        if (collision.gameObject.CompareTag("Bala"))
         {
             TomarDano(1);
             Destroy(collision.gameObject); // destruir bala al impactar
         }
 
         // Si toca al jugador
-        if (collision.CompareTag("Player"))
-                {
-            var kobold = collision.GetComponent<Kobold>();
-            if (kobold != null) kobold.Golpear();
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Vector2 dir = collision.transform.position;
+            Kobold kobold = collision.gameObject.GetComponent<Kobold>();
+            if (kobold != null)
+            {
+                kobold.RecibeDanio(transform.position, 1);
+            }
         }
     }
 

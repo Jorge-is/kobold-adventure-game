@@ -1,22 +1,16 @@
 fileFormatVersion: 2
-guid: f2532e155e9e5af479e239031c503551
+guid: ecee98274d3ff274796af3f5557f51b8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2153646289433819626
-    second: vidas_0
+      213: -2048800907179887802
+    second: Hurt_0
   - first:
-      213: 1288761392300247612
-    second: vidas_1
+      213: 490842205202310979
+    second: Hurt_1
   - first:
-      213: 8909117659596098692
-    second: vidas_2
-  - first:
-      213: 7625855351318977366
-    second: vidas_3
-  - first:
-      213: -89940268231557700
-    second: vidas_4
+      213: -3720053754089064719
+    second: Hurt_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -63,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 30
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -125,13 +119,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: vidas_0
+      name: Hurt_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 25
-        width: 91
-        height: 79
+        x: 2
+        y: 6
+        width: 45
+        height: 54
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,20 +134,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ae97a85c3e943ed10800000000000000
-      internalID: 2153646289433819626
+      spriteID: 6437b001e623193e0800000000000000
+      internalID: -2048800907179887802
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vidas_1
+      name: Hurt_1
       rect:
         serializedVersion: 2
-        x: 114
-        y: 24
-        width: 90
-        height: 79
+        x: 50
+        y: 6
+        width: 45
+        height: 54
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,20 +156,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c3a4b4c78a992e110800000000000000
-      internalID: 1288761392300247612
+      spriteID: 3476ad19262dfc600800000000000000
+      internalID: 490842205202310979
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vidas_2
+      name: Hurt_2
       rect:
         serializedVersion: 2
-        x: 210
-        y: 24
-        width: 91
-        height: 79
+        x: 98
+        y: 6
+        width: 45
+        height: 54
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,52 +178,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 48c82621f4b83ab70800000000000000
-      internalID: 8909117659596098692
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: vidas_3
-      rect:
-        serializedVersion: 2
-        x: 307
-        y: 24
-        width: 91
-        height: 79
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 65b11ebd90b74d960800000000000000
-      internalID: 7625855351318977366
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: vidas_4
-      rect:
-        serializedVersion: 2
-        x: 404
-        y: 24
-        width: 91
-        height: 79
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: cbdfd057dc770cef0800000000000000
-      internalID: -89940268231557700
+      spriteID: 1f6b92202d6bf5cc0800000000000000
+      internalID: -3720053754089064719
       vertices: []
       indices: 
       edges: []
@@ -238,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: e4e2133a3449cd14fa5b166b128fa4f5
     internalID: 0
     vertices: []
     indices: 
@@ -250,11 +200,9 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      vidas_0: 2153646289433819626
-      vidas_1: 1288761392300247612
-      vidas_2: 8909117659596098692
-      vidas_3: 7625855351318977366
-      vidas_4: -89940268231557700
+      Hurt_0: -2048800907179887802
+      Hurt_1: 490842205202310979
+      Hurt_2: -3720053754089064719
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

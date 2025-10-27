@@ -1,22 +1,10 @@
 fileFormatVersion: 2
-guid: f2532e155e9e5af479e239031c503551
+guid: 2111d17ec740bff4884281e1b5df383a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2153646289433819626
-    second: vidas_0
-  - first:
-      213: 1288761392300247612
-    second: vidas_1
-  - first:
-      213: 8909117659596098692
-    second: vidas_2
-  - first:
-      213: 7625855351318977366
-    second: vidas_3
-  - first:
-      213: -89940268231557700
-    second: vidas_4
+      213: -4736834772082498678
+    second: perderVida_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -87,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -125,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: vidas_0
+      name: perderVida_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 25
-        width: 91
-        height: 79
+        x: 50
+        y: 80
+        width: 390
+        height: 340
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,96 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ae97a85c3e943ed10800000000000000
-      internalID: 2153646289433819626
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: vidas_1
-      rect:
-        serializedVersion: 2
-        x: 114
-        y: 24
-        width: 90
-        height: 79
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c3a4b4c78a992e110800000000000000
-      internalID: 1288761392300247612
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: vidas_2
-      rect:
-        serializedVersion: 2
-        x: 210
-        y: 24
-        width: 91
-        height: 79
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 48c82621f4b83ab70800000000000000
-      internalID: 8909117659596098692
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: vidas_3
-      rect:
-        serializedVersion: 2
-        x: 307
-        y: 24
-        width: 91
-        height: 79
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 65b11ebd90b74d960800000000000000
-      internalID: 7625855351318977366
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: vidas_4
-      rect:
-        serializedVersion: 2
-        x: 404
-        y: 24
-        width: 91
-        height: 79
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: cbdfd057dc770cef0800000000000000
-      internalID: -89940268231557700
+      spriteID: a83ed422fd1634eb0800000000000000
+      internalID: -4736834772082498678
       vertices: []
       indices: 
       edges: []
@@ -238,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 745b13c28ea147b46ace707a9c33ddf2
     internalID: 0
     vertices: []
     indices: 
@@ -250,11 +150,7 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      vidas_0: 2153646289433819626
-      vidas_1: 1288761392300247612
-      vidas_2: 8909117659596098692
-      vidas_3: 7625855351318977366
-      vidas_4: -89940268231557700
+      perderVida_0: -4736834772082498678
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
