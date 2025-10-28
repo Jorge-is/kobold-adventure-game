@@ -1,0 +1,12 @@
+# ninja log v5
+111	549	7833184649353739	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	a0bf248c3bc9bb2
+562	1559	7833184658888615	C:/Users/Usuario/ShadowShots/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/144n4c3h/obj/armeabi-v7a/libswappywrapper.so	ffb4ed95ce450349
+46	3538	7833184679111077	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	a6cae33277af5f3
+2	3603	7833184679951076	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	d5e9a0c8773be211
+88	3645	7833184680386351	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	c932be3e0757c0ab
+34	3733	7833184681272651	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	a307caa69ce14a07
+11	3763	7833184681555400	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	461ba3acc6bcf538
+74	3861	7833184682581911	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	f5429c491b45181b
+59	4100	7833184684956119	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	1905c719f702eecd
+22	4240	7833184686342763	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	1b17fb56ab42662b
+4240	4378	7833184687818869	C:/Users/Usuario/ShadowShots/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/144n4c3h/obj/armeabi-v7a/libgame.so	c4f2260edaac24f2
