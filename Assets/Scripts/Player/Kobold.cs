@@ -8,15 +8,17 @@ public class Kobold : MonoBehaviour
     [Header("Ataque")]
     public GameObject BalaPrefab;
     [SerializeField] private Transform PuntoDisparo;
-    private float UltimoDisparo;
+    private float ultimoDisparo;
 
     //[SerializeField] private GameObject EfectoDanio;
 
-    [Header("Atributos")]
-    [SerializeField] private int vida = 5;
+    [Header("Movimiento")]
     public float Velocidad = 5f;
     public float FuerzaSalto = 4f;
     public float FuerzaGolpe = 6f;
+
+    [Header("Vida")]
+    [SerializeField] private int vida = 5;
 
     [Header("Detección de suelo")]
     public Transform ControlSuelo;
@@ -28,7 +30,7 @@ public class Kobold : MonoBehaviour
     public Sprite corazonLleno;
     public Sprite corazonVacio;
 
-    [Header("Interfaz y Sonidos")]
+    [Header("Monedas y Sonidos")]
     private int coins;
     public TMP_Text textCoins;
     public AudioSource audioSource;
@@ -43,6 +45,15 @@ public class Kobold : MonoBehaviour
     private bool conectadoTierra;
     private bool recibeDanio;
 
+    // --------- UI MÓVIL ----------
+    [Header("Controles Mobile")]
+    public Joystick joystickMovimiento; // arrastra aquí el FixedJoystick izquierdo
+    public Button jumpButton; // asigna el botón Jump
+    public Button fireButton; // asigna el botón Fire
+
+    // Zona muerta para evitar movimientos no deseados
+    private float joystickDeadzone = 0.2f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -51,6 +62,21 @@ public class Kobold : MonoBehaviour
 
         // Inicializar corazones de vida al comienzo
         ActualizarCorazones();
+
+        // Suscribir botones si están asignados
+        if (jumpButton != null)
+            jumpButton.onClick.AddListener(OnJumpButtonPressed);
+        if (fireButton != null)
+            fireButton.onClick.AddListener(OnFireButtonPressed);
+    }
+
+    void OnDestroy()
+    {
+        // Liberar eventos
+        if (jumpButton != null)
+            jumpButton.onClick.RemoveListener(OnJumpButtonPressed);
+        if (fireButton != null)
+            fireButton.onClick.RemoveListener(OnFireButtonPressed);
     }
 
     void Update()
@@ -58,7 +84,23 @@ public class Kobold : MonoBehaviour
         // Bloquear movimiento mientras recibe daño
         if (recibeDanio) return;
 
-        float mover = Input.GetAxisRaw("Horizontal");
+        float mover = 0f;
+
+        // CONTROL DE MOVIMIENTO
+        if (joystickMovimiento != null)
+        {
+            // Si el joystick está asignado, usar su valor
+            mover = Mathf.Abs(joystickMovimiento.Horizontal) > joystickDeadzone
+                ? joystickMovimiento.Horizontal
+                : 0f;
+        }
+        else
+        {
+            // Si no hay joystick, usar teclado
+            mover = Input.GetAxisRaw("Horizontal");
+        }
+
+        // Aplicar movimiento horizontal
         rb.linearVelocity = new Vector2(mover * Velocidad, rb.linearVelocity.y);
 
         // Orientación del jugador, mira en la dirección del movimiento
@@ -69,17 +111,17 @@ public class Kobold : MonoBehaviour
         //Animator.SetBool("grounded", ConectadoTierra);
         animator.SetBool("recibeDanio", recibeDanio);
 
-        // Salto
-        if (Input.GetKeyDown(KeyCode.W /* "Jump" */) && conectadoTierra)
+        // SALTO CON TECLADO 
+        if (Input.GetKeyDown(KeyCode.W) && conectadoTierra)
         {
             Saltar();
         }
 
-        // Disparo
-        if (Input.GetKey(KeyCode.Space) && Time.time > UltimoDisparo + 0.25f)
+        // DISPARO CON TECLADO
+        if (Input.GetKey(KeyCode.Space) && Time.time > ultimoDisparo + 0.25f)
         {
             Disparar();
-            UltimoDisparo = Time.time;
+            ultimoDisparo = Time.time;
         }
     }
 
@@ -93,6 +135,21 @@ public class Kobold : MonoBehaviour
     {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, FuerzaSalto);
         //Rigidbody2D.AddForce(Vector2.up * FuerzaSalto);
+    }
+
+    private void OnJumpButtonPressed()
+    {
+        if (conectadoTierra && !recibeDanio)
+            Saltar();
+    }
+
+    private void OnFireButtonPressed()
+    {
+        if (Time.time > ultimoDisparo + 0.25f && !recibeDanio)
+        {
+            Disparar();
+            ultimoDisparo = Time.time;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -173,7 +230,7 @@ public class Kobold : MonoBehaviour
         }
         else
         {
-            Invoke(nameof(DesactivaDanio), 0.5f); // tiempo de recuperación
+            Invoke(nameof(DesactivaDanio), 0.5f); // Tiempo de recuperación
         }
     }
 
