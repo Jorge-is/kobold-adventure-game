@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class Kobold : MonoBehaviour
 {
@@ -50,6 +51,8 @@ public class Kobold : MonoBehaviour
     public Joystick joystickMovimiento; // arrastra aquí el FixedJoystick izquierdo
     public Button jumpButton; // asigna el botón Jump
     public Button fireButton; // asigna el botón Fire
+    private bool fireButtonHeld;
+    private bool jumpButtonHeld;
 
     // Zona muerta para evitar movimientos no deseados
     private float joystickDeadzone = 0.2f;
@@ -63,11 +66,34 @@ public class Kobold : MonoBehaviour
         // Inicializar corazones de vida al comienzo
         ActualizarCorazones();
 
-        // Suscribir botones si están asignados
+        // Detectar si los botones están asignados
         if (jumpButton != null)
-            jumpButton.onClick.AddListener(OnJumpButtonPressed);
+        {
+            EventTrigger triggerJump = jumpButton.gameObject.AddComponent<EventTrigger>();
+
+            var down = new EventTrigger.Entry { eventID = EventTriggerType.PointerDown };
+            down.callback.AddListener((data) => { jumpButtonHeld = true; });
+
+            var up = new EventTrigger.Entry { eventID = EventTriggerType.PointerUp };
+            up.callback.AddListener((data) => { jumpButtonHeld = false; });
+
+            triggerJump.triggers.Add(down);
+            triggerJump.triggers.Add(up);
+        }
+
         if (fireButton != null)
-            fireButton.onClick.AddListener(OnFireButtonPressed);
+        {
+            EventTrigger triggerFire = fireButton.gameObject.AddComponent<EventTrigger>();
+
+            var down = new EventTrigger.Entry { eventID = EventTriggerType.PointerDown };
+            down.callback.AddListener((data) => { fireButtonHeld = true; });
+
+            var up = new EventTrigger.Entry { eventID = EventTriggerType.PointerUp };
+            up.callback.AddListener((data) => { fireButtonHeld = false; });
+
+            triggerFire.triggers.Add(down);
+            triggerFire.triggers.Add(up);
+        }
     }
 
     void OnDestroy()
@@ -119,6 +145,20 @@ public class Kobold : MonoBehaviour
 
         // DISPARO CON TECLADO
         if (Input.GetKey(KeyCode.Space) && Time.time > ultimoDisparo + 0.25f)
+        {
+            Disparar();
+            ultimoDisparo = Time.time;
+        }
+
+        // SALTO CON BOTÓN PRESIONADO
+        if (jumpButtonHeld && conectadoTierra)
+        {
+            Saltar();
+            jumpButtonHeld = false; // Evita saltar infinitamente al mantener presionado
+        }
+
+        // DISPARO MIENTRAS SE MANTIENE PRESIONADO
+        if (fireButtonHeld && Time.time > ultimoDisparo + 0.25f)
         {
             Disparar();
             ultimoDisparo = Time.time;
