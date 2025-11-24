@@ -45,7 +45,16 @@ public class LevelSelectorManager : MonoBehaviour
 
             bool isUnlocked = level.levelNumber <= unlockedLevels;
             btn.interactable = isUnlocked;
-            if (lockIcon != null) lockIcon.gameObject.SetActive(!isUnlocked);
+
+            label.text = level.levelNumber.ToString();
+
+            // Mostrar número solo si está desbloqueado
+            label.gameObject.SetActive(isUnlocked);
+
+            // Mostrar candado solo si está bloqueado
+            if (lockIcon != null)
+                lockIcon.gameObject.SetActive(!isUnlocked);
+
 
             int levelIndex = level.levelNumber;
             btn.onClick.AddListener(() => LoadLevel(levelIndex));
