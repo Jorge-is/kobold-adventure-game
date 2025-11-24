@@ -27,5 +27,5 @@ public class PasswordUnlock : MonoBehaviour
         }
     }
 
-    public void VolverMenu() => SceneManager.LoadScene("MainMenu");
+    public void VolverMenu() => SceneManager.LoadScene("LevelSelector");
 }

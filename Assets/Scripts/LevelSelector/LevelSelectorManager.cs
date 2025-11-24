@@ -2,22 +2,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class LevelSelectorManager : MonoBehaviour
 {
     [Header("Referencias")]
-    public GameObject levelButtonPrefab; // Prefab del botón de nivel
-    public Transform panelPrefabs; // Panel donde se instanciarán los botones
+    public GameObject levelButtonPrefab;
+    public RectTransform buttonsContainer;
 
     [Header("Configuración de Niveles")]
-    public int totalLevels = 5; // Cantidad total de niveles
-    public int unlockedLevels = 3; // Cantidad de niveles desbloqueados
+    public int unlockedLevels = 3;
+
+    [Header("Posiciones de niveles")]
+    public List<LevelButtonData> levels = new List<LevelButtonData>();
 
     void Start()
     {
-        if (levelButtonPrefab == null || panelPrefabs == null)
+        if (levelButtonPrefab == null || buttonsContainer == null)
         {
-            Debug.LogError("Faltan referencias: arrastra el prefab y el panel en el inspector.");
+            Debug.LogError("Faltan referencias en el inspector.");
             return;
         }
 
@@ -26,34 +29,36 @@ public class LevelSelectorManager : MonoBehaviour
 
     void GenerateLevelButtons()
     {
-        for (int i = 1; i <= totalLevels; i++)
+        foreach (LevelButtonData level in levels)
         {
-            GameObject newButton = Instantiate(levelButtonPrefab, panelPrefabs);
+            GameObject newButton = Instantiate(levelButtonPrefab, buttonsContainer);
+
+            // Posición manual
+            RectTransform rt = newButton.GetComponent<RectTransform>();
+            rt.anchoredPosition = level.position;
 
             TMP_Text label = newButton.GetComponentInChildren<TMP_Text>();
-            Button button = newButton.GetComponentInChildren<Button>();
-            Image lockIcon = newButton.transform.Find("LockIcon").GetComponent<Image>();        
+            Button btn = newButton.GetComponentInChildren<Button>();
+            Image lockIcon = newButton.transform.Find("LockIcon").GetComponent<Image>();
 
-            label.text = "Nivel " + i;
+            label.text = level.levelNumber.ToString();
 
-            bool isUnlocked = (i <= unlockedLevels);
+            bool isUnlocked = level.levelNumber <= unlockedLevels;
+            btn.interactable = isUnlocked;
             if (lockIcon != null) lockIcon.gameObject.SetActive(!isUnlocked);
-            button.interactable = isUnlocked;
 
-            int levelIndex = i; // Captura para el listener
-            button.onClick.AddListener(() => LoadLevel(levelIndex));
+            int levelIndex = level.levelNumber;
+            btn.onClick.AddListener(() => LoadLevel(levelIndex));
         }
     }
 
     void LoadLevel(int index)
     {
-        string sceneName = "Level" + index; // "Level1", "Level2", etc.
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene("Level" + index);
     }
 
     public void VolverAlMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }
-
 }
