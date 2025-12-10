@@ -10,6 +10,7 @@ TagManager:
   - Barrel
   - Bala
   - Enemy
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX

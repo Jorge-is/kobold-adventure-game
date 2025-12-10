@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
@@ -12,6 +11,9 @@ public class LevelSelectorManager : MonoBehaviour
 
     [Header("Configuración de Niveles")]
     public int unlockedLevels = 3;
+
+    [Header("Sprites de cada nivel")]
+    public List<Sprite> levelSprites;
 
     [Header("Posiciones de niveles")]
     public List<LevelButtonData> levels = new List<LevelButtonData>();
@@ -37,25 +39,35 @@ public class LevelSelectorManager : MonoBehaviour
             RectTransform rt = newButton.GetComponent<RectTransform>();
             rt.anchoredPosition = level.position;
 
-            TMP_Text label = newButton.GetComponentInChildren<TMP_Text>();
-            Button btn = newButton.GetComponentInChildren<Button>();
-            Image lockIcon = newButton.transform.Find("LockIcon").GetComponent<Image>();
+            Button btn = newButton.GetComponent<Button>();
 
-            label.text = level.levelNumber.ToString();
+            // Asignar imagen del nivel
+            Image mainImage = newButton.GetComponentInChildren<Image>();
 
             bool isUnlocked = level.levelNumber <= unlockedLevels;
             btn.interactable = isUnlocked;
 
-            label.text = level.levelNumber.ToString();
+            // Cambia de imagen según el nivel
+            int spriteIndex = level.levelNumber - 1;
 
-            // Mostrar número solo si está desbloqueado
-            label.gameObject.SetActive(isUnlocked);
+            if (mainImage != null && spriteIndex >= 0 && spriteIndex < levelSprites.Count)
+            {
+                mainImage.sprite = levelSprites[spriteIndex];
+            }
+            else
+            {
+                Debug.LogWarning("No hay sprite asignado para el nivel " + level.levelNumber);
+            }
 
-            // Mostrar candado solo si está bloqueado
-            if (lockIcon != null)
-                lockIcon.gameObject.SetActive(!isUnlocked);
+            // Escala de grises si está bloqueado
+            if (mainImage != null)
+            {
+                mainImage.color = isUnlocked
+                    ? Color.white
+                    : new Color(0.35f, 0.35f, 0.35f, 1f);
+            }
 
-
+            // Click para carga el nivel
             int levelIndex = level.levelNumber;
             btn.onClick.AddListener(() => LoadLevel(levelIndex));
         }
