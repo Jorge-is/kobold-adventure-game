@@ -3,52 +3,53 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class MovingPlatform : MonoBehaviour
 {
-    [Tooltip("Point A (start)")]
-    public Transform pointA;
-    [Tooltip("Point B (end)")]
-    public Transform pointB;
+    [SerializeField] private Transform[] puntosMovimiento;
+    [SerializeField] private float velocidadMovimiento;
 
-    public float speed = 2f;
-    public float waitTimeAtPoint = 0.2f; // pausa al llegar al punto
-    public bool startAtA = true;
+    private int siguientePlataforma = 1;
 
-    Rigidbody2D rb;
-    float waitTimer = 0f;
-    Transform currentTarget;
+    private bool ordenPlataformas = true;
 
-    void Awake()
+    private void Update()
     {
-        rb = GetComponent<Rigidbody2D>();
-
-        // Validación
-        if (pointA == null || pointB == null)
+        if (ordenPlataformas && siguientePlataforma + 1 >= puntosMovimiento.Length)
         {
-            Debug.LogError("¡Debes asignar PointA y PointB en el inspector!");
-            enabled = false;
-            return;
+            ordenPlataformas = false;
+        }
+        
+        if (!ordenPlataformas && siguientePlataforma <= 0)
+        {
+            ordenPlataformas = true;
         }
 
-        currentTarget = startAtA ? pointB : pointA; // si empezamos en A, ir a B primero
+        if (Vector2.Distance(transform.position, puntosMovimiento[siguientePlataforma].position) < 0.1f)
+        {
+            if (ordenPlataformas)
+            {
+                siguientePlataforma += 1;
+            }
+            else
+            {
+                siguientePlataforma -= 1;
+            }
+        }
+
+        transform.position = Vector2.MoveTowards(transform.position, puntosMovimiento[siguientePlataforma].position, velocidadMovimiento * Time.deltaTime);
     }
 
-    void FixedUpdate()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (waitTimer > 0f)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            waitTimer -= Time.fixedDeltaTime;
-            return;
+            collision.transform.SetParent(this.transform);
         }
+    }
 
-        Vector2 target = currentTarget.position;
-        Vector2 newPos = Vector2.MoveTowards(rb.position, target, speed * Time.fixedDeltaTime);
-        rb.MovePosition(newPos);
-
-        // si llegó al target (con tolerancia)
-        if (Vector2.Distance(rb.position, target) < 0.01f)
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
         {
-            // intercambiar objetivo
-            currentTarget = currentTarget == pointA ? pointB : pointA;
-            waitTimer = waitTimeAtPoint;
+            collision.transform.SetParent(null);
         }
     }
 }
