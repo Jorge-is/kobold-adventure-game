@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 0f; // Pausa el juego
         optionsMenu.SetActive(true);
 
-        // Pausar la música de fondo si es necesario
+        // Pausa la música de fondo
         if (gameMusic != null && gameMusic.isPlaying)
         {
             gameMusic.Pause();
