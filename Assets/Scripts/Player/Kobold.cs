@@ -134,7 +134,7 @@ public class Kobold : MonoBehaviour
 
         // Animaciones
         animator.SetFloat("speed", Mathf.Abs(mover));
-        //Animator.SetBool("grounded", ConectadoTierra);
+        animator.SetBool("grounded", conectadoTierra);
         animator.SetBool("recibeDanio", recibeDanio);
 
         // SALTO CON TECLADO 
@@ -168,7 +168,7 @@ public class Kobold : MonoBehaviour
     private void FixedUpdate()
     {
         conectadoTierra = Physics2D.OverlapCircle(ControlSuelo.position, RadioSuelo, CapaSuelo);
-        //Animator.SetBool("jumping", !ConectadoTierra); // Aún no tengo animación de salto
+        //animator.SetBool("jumping", !conectadoTierra); // Aún no tengo animación de salto
     }
 
     private void Saltar()
